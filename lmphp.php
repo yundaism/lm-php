@@ -53,7 +53,7 @@ $twinbus = file_get_contents("twinbustable.txt");
 $split_regbus = explode(' ', $regbus);
 $split_twinbus = explode(' ', $twinbus);
 
-//display by line
+//time for local bus
 echo "各停<br>";
 
 foreach ($split_regbus as $single_regbus) {
@@ -70,10 +70,21 @@ foreach ($split_regbus as $single_regbus) {
     }
 }
 
+//time for twinliner
 echo "<br>";
 echo "ツインライナー<br>";
 foreach ($split_twinbus as $single_twinbus) {
-    echo $single_twinbus."<br>";
+    //split hour:time
+    $twinbus_t = explode(":", $single_twinbus);
+    $time_t = $twinbus_t[0].":".$twinbus_t[1];
+    
+    //save as time
+    $bustime_t = new DateTime($time_t);
+    
+    //display if bus time is -10min or +30min from now
+    if($bustime_t >= $prevbus && $bustime_t <= $nextbus){
+    echo $bustime_t->format('G:i')."<br>";
+    }
 }
 
 
