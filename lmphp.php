@@ -57,12 +57,9 @@ $split_twinbus = explode(' ', $twinbus);
 echo "各停<br>";
 
 foreach ($split_regbus as $single_regbus) {
-    //split hour:time
-    $regbus_t = explode(":", $single_regbus);
-    $time = $regbus_t[0].":".$regbus_t[1];
     
     //save as time
-    $bustime = new DateTime($time);
+    $bustime = new DateTime($single_regbus);
     
     //display if bus time is -10min or +30min from now
     if($bustime >= $prevbus && $bustime <= $nextbus){
@@ -74,12 +71,9 @@ foreach ($split_regbus as $single_regbus) {
 echo "<br>";
 echo "ツインライナー<br>";
 foreach ($split_twinbus as $single_twinbus) {
-    //split hour:time
-    $twinbus_t = explode(":", $single_twinbus);
-    $time_t = $twinbus_t[0].":".$twinbus_t[1];
-    
+
     //save as time
-    $bustime_t = new DateTime($time_t);
+    $bustime_t = new DateTime($single_twinbus);
     
     //display if bus time is -10min or +30min from now
     if($bustime_t >= $prevbus && $bustime_t <= $nextbus){
