@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -12,6 +16,15 @@
 <?php
 //php_language marathon
 
+$minus = $_SESSION['minus'];
+$plus = $_SESSION['plus'];
+
+if(!$_SESSION['minus'] || !$_SESSION['plus']){
+//insert displaying bus time duration in minutes
+$minus = 10;
+$plus = 30;
+}
+
 //set timezone
 date_default_timezone_set('Asia/Tokyo');
 
@@ -21,26 +34,30 @@ $prevbus = new DateTime(now);
 $nextbus = new DateTime(now);
 
 //display current time
-echo "現在時刻　";
+echo "<p class=\"deco\">現在時刻　";
 echo $now->format('G:i'); 
-echo "<br>";
+echo "</p>";
 
-echo "<br>";
+?>
 
-//insert displaying bus time duration in minutes
-$minus = 10;
-$plus = 30;
+<form method="POST" action="redirect.php">
+<p><input type="text" size="2" value="<?php echo $minus; ?>" name="minus">分前 から <input type="text" size="2" value="<?php echo $plus; ?>" name="plus">分後 までのバスを調べる。</p>
+<input type="submit" value="送信">
+</form>
+
+<br>
+
+<?php
 
 //timetable to get
-echo $minus."分前（";
+echo "<span class=\"red\">".$minus."分前</span>（";
 $prevbus->modify('-'.$minus.' minutes');
 echo $prevbus->format('G:i')."）までのバスと"; 
 
-echo "<br>";
 
-echo $plus."分後（";
+echo "<span class=\"red\">".$plus."分後</span>（";
 $nextbus->modify('+'.$plus.' minutes');
-echo $nextbus->format('G:i')."）までのバスを表示"; 
+echo $nextbus->format('G:i')."）までのバスを表示中。"; 
 echo "<br>";
 
 echo "<br>";
@@ -59,7 +76,7 @@ $count_r = 0;
 $count_t = 0;
 
 //time for local bus
-echo "各停<br>";
+echo "<p class=\"deco\">各停</p>";
 
 foreach ($split_regbus as $single_regbus) {
     
@@ -81,7 +98,7 @@ if($count_r == 0){
 
 //time for twinliner
 echo "<br>";
-echo "ツインライナー<br>";
+echo "<p class=\"deco\">ツインライナー</p>";
 foreach ($split_twinbus as $single_twinbus) {
 
     $bustime_t = new DateTime($single_twinbus);

@@ -5,3 +5,11 @@ body {
 	color: #696969;
 	font-size: 13px;
 }
+
+p.deco {
+	text-decoration: underline;
+}
+
+.red {
+	color: #ff0000;
+}
